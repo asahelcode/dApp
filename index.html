@@ -36,5 +36,28 @@
     <button onclick="setMood()">Set Mood</button>
   </div>
 </body>
+<script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+<script>
+  const MoodContractAddress = '0xc247c2f0cf286aef8d2ea0f94e11907faae8ccb1';
+  const MoodContractABI = [{ inputs: [{ internalType: string, name: _mood, type: string }], name: "setMood", outputs: [], stateMultability: "nonpayable", type: "function" }, { inputs: [], name: "getMood", outputs: [{ internalType: string, name: "_mood", type: string }], stateMultability: "view", type: "function" }];
+  let moodContract;
+  let signer;
+  const Provider = new ethers.provider.Web3Provider(window.ethereum, "goerli");
+
+  provider.send("eth_requestAccounts", []).then(() => {
+    provider.listAccounts().then((accounts) => {
+      signer = provider.getSigner(accounts[0]);
+      MoodContract = new ethers.Contract(MoodContractAddress, MoodContractABI, signer);
+    })
+  })
+
+  async function getMood() {
+    const Mood = await MoodContract.getMood();
+
+    console.log(Mood);
+  }
+
+</script>
+
 
 </html>
