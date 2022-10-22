@@ -39,10 +39,10 @@
 <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
 <script>
   const MoodContractAddress = '0xc247c2f0cf286aef8d2ea0f94e11907faae8ccb1';
-  const MoodContractABI = [{ inputs: [{ internalType: string, name: _mood, type: string }], name: "setMood", outputs: [], stateMultability: "nonpayable", type: "function" }, { inputs: [], name: "getMood", outputs: [{ internalType: string, name: "_mood", type: string }], stateMultability: "view", type: "function" }];
+  const MoodContractABI = [{ inputs: [{ internalType: "string", name: "_mood", type: "string" }], name: "setMood", outputs: [], stateMutability: "nonpayable", type: "function" }, { inputs: [], name: "getMood", outputs: [{ internalType: "string", name: "_mood", type: "string" }], stateMutability: "view", type: "function" }];
   let moodContract;
   let signer;
-  const Provider = new ethers.provider.Web3Provider(window.ethereum, "goerli");
+  const provider = new ethers.providers.Web3Provider(window.ethereum, "goerli");
 
   provider.send("eth_requestAccounts", []).then(() => {
     provider.listAccounts().then((accounts) => {
@@ -51,10 +51,15 @@
     })
   })
 
-  async function getMood() {
+  const getMood = async () => {
     const Mood = await MoodContract.getMood();
 
     console.log(Mood);
+  }
+
+  const setMood = async () => {
+    const mood = document.getElementById('mood').value;
+    const setMoodPromise = await MoodContract.setMood(mood);
   }
 
 </script>
